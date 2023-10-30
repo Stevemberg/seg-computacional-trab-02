@@ -166,27 +166,21 @@ public class AES {
 
 	public Byte[] encrypt(Byte[] originalKey, Byte[] plaintext, int AESrounds) {
 		BytesAndMatrixManipulation bmm = new BytesAndMatrixManipulation();
-		Byte[] result = new Byte[0];
 		key = expandKey(originalKey, AESrounds);
 
 		Byte[][] block = bmm.convertBytesToMatrix(plaintext, true);
 		Byte[][] actualKey = bmm.convertBytesToMatrix(key, true);
 		block = addRoundKey(block, actualKey);
 
-		for (int i = 1; i < AESrounds; i++) {
+		for (int i = 1; i <= AESrounds; i++) {
 			block = subBytes(block);
 			block = shiftRows(block);
-			block = mixColumns(block);
+			if (i != AESrounds)
+				block = mixColumns(block);
 			actualKey = bmm.convertBytesToMatrix(Arrays.copyOfRange(key, i * 16, key.length), true);
-			bmm.printVector(Arrays.copyOfRange(key, i * 16, key.length));
 			block = addRoundKey(block, actualKey);
 		}
-		block = subBytes(block);
-		block = shiftRows(block);
-		actualKey = bmm.convertBytesToMatrix(Arrays.copyOfRange(key, 10 * 16, key.length), true);
-		block = addRoundKey(block, actualKey);
-		bmm.printMatrix(block);
-		return result;
+		return bmm.convertMatrixToArray(block, true);
 	}
 
 }

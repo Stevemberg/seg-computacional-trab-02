@@ -84,6 +84,22 @@ public class BytesAndMatrixManipulation {
 
 	}
 
+	public Byte[] convertMatrixToArray(Byte[][] matrix, boolean isAES) {
+		Byte[] result = new Byte[matrix.length * matrix.length];
+		int index = 0;
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				if (isAES)
+					result[index] = matrix[j][i];
+				else
+					result[index] = matrix[i][j];
+				index++;
+			}
+		}
+
+		return result;
+	}
+
 	public void printVector(Byte[] vector) {
 		for (int i = 0; i < vector.length; i++) {
 			System.out.print(HexFormat.of().toHexDigits(vector[i]));
