@@ -12,7 +12,7 @@ public class FileManipulation {
 	private static final String COMMA_DELIMITER = ";";
 
 	public static String readFile(String name) {
-		File file = new File("./textfiles/" + name);
+		File file = new File("src/textfiles/" + name);
 		StringBuilder result = new StringBuilder("");
 		try {
 			BufferedReader buffer = new BufferedReader(new FileReader(file));
@@ -37,7 +37,7 @@ public class FileManipulation {
 		if (name == null || name.isBlank())
 			name = "output.txt";
 
-		File file = new File("./textfiles/" + name);
+		File file = new File("src/textfiles/" + name);
 		try {
 			BufferedWriter buffer = new BufferedWriter(new FileWriter(file));
 			buffer.write(text);

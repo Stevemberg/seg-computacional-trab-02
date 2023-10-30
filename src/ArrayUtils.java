@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HexFormat;
 
 public class ArrayUtils {
 	public static void shift(Byte[] array, int offset) {
@@ -51,6 +52,13 @@ public class ArrayUtils {
 		for (int i = 0; i < result.length; i++)
 			result[i] = Byte.toUnsignedInt(array[i]);
 		return result;
+	}
+
+	public static String convertToString(Byte[] array) {
+		StringBuilder result = new StringBuilder("");
+		for (int i = 0; i < array.length; i++)
+			result.append(HexFormat.of().toHexDigits(array[i]));
+		return result.toString();
 	}
 
 }

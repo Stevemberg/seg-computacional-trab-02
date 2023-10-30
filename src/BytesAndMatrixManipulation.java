@@ -51,7 +51,7 @@ public class BytesAndMatrixManipulation {
 		}
 	}
 
-	public static void printMatrix(int[][] matrix) {
+	public void printMatrix(int[][] matrix) {
 		Byte[][] byteMatrix = new Byte[matrix.length][matrix.length];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
@@ -103,8 +103,8 @@ public class BytesAndMatrixManipulation {
 	public void printVector(Byte[] vector) {
 		for (int i = 0; i < vector.length; i++) {
 			System.out.print(HexFormat.of().toHexDigits(vector[i]));
-			if (i < vector.length - 1)
-				System.out.print(", ");
+//			if (i < vector.length - 1)
+//				System.out.print(", ");
 
 		}
 		System.out.print("\n");
@@ -112,6 +112,31 @@ public class BytesAndMatrixManipulation {
 
 	public void printVector(int[] vector) {
 		printVector(ArrayUtils.convertToByte(vector));
+	}
+
+	public ArrayList<Byte[][]> createBlocks(Byte[] array) {
+		ArrayList<Byte[][]> result = new ArrayList<Byte[][]>();
+		boolean hasBytes = true;
+		int bytesIndex = 0;
+		while (hasBytes) {
+			if (bytesIndex >= array.length)
+				break;
+			Byte[][] block = new Byte[4][4];
+			for (int i = 0; i < block.length; i++) {
+				for (int j = 0; j < block[i].length; j++) {
+					if (bytesIndex < array.length) {
+						block[j][i] = array[bytesIndex];
+						bytesIndex++;
+					} else {
+						block[j][i] = Integer.valueOf(0x20).byteValue();
+						hasBytes = false;
+					}
+				}
+			}
+			result.add(block);
+		}
+
+		return result;
 	}
 
 }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AES {
@@ -166,21 +167,30 @@ public class AES {
 
 	public Byte[] encrypt(Byte[] originalKey, Byte[] plaintext, int AESrounds) {
 		BytesAndMatrixManipulation bmm = new BytesAndMatrixManipulation();
+		ArrayList<Byte[][]> chipherBlocks = new ArrayList<Byte[][]>();
+		Byte[] result = new Byte[0];
+		Byte[][] actualKey;
+		ArrayList<Byte[][]> blocks = bmm.createBlocks(plaintext);
 		key = expandKey(originalKey, AESrounds);
 
-		Byte[][] block = bmm.convertBytesToMatrix(plaintext, true);
-		Byte[][] actualKey = bmm.convertBytesToMatrix(key, true);
-		block = addRoundKey(block, actualKey);
-
-		for (int i = 1; i <= AESrounds; i++) {
-			block = subBytes(block);
-			block = shiftRows(block);
-			if (i != AESrounds)
-				block = mixColumns(block);
-			actualKey = bmm.convertBytesToMatrix(Arrays.copyOfRange(key, i * 16, key.length), true);
-			block = addRoundKey(block, actualKey);
+		for (Byte[][] block : blocks) {
+			for (int i = 0; i <= AESrounds; i++) {
+				if (i != 0) {
+					block = subBytes(block);
+					block = shiftRows(block);
+				}
+				if (i != 0 && i != AESrounds)
+					block = mixColumns(block);
+				actualKey = bmm.convertBytesToMatrix(Arrays.copyOfRange(key, i * 16, key.length), true);
+				block = addRoundKey(block, actualKey);
+			}
+			chipherBlocks.add(block);
 		}
-		return bmm.convertMatrixToArray(block, true);
+
+		for (Byte[][] chipherBlock : chipherBlocks)
+			result = ArrayUtils.apend(result, bmm.convertMatrixToArray(chipherBlock, true));
+
+		return result;
 	}
 
 }
