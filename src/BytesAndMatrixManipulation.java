@@ -139,4 +139,24 @@ public class BytesAndMatrixManipulation {
 		return result;
 	}
 
+	public Byte[] revertWords(Byte[] array) {
+		Byte[] result = new Byte[0];
+		ArrayList<Byte[]> list = new ArrayList<Byte[]>();
+		Byte[] aux = new Byte[0];
+		int count = 1;
+		for (int i = 0; i < array.length; i++) {
+			aux = ArrayUtils.apend(aux, new Byte[] { array[i] });
+			if (count != 0 && count % 16 == 0) {
+				list.add(aux);
+				aux = new Byte[0];
+			}
+			count++;
+		}
+		list.add(aux);
+		for (int i = 0; i < list.size(); i++) {
+			result = ArrayUtils.apend(result, list.get(list.size() - 1 - i));
+		}
+		return result;
+	}
+
 }

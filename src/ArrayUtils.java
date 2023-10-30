@@ -30,6 +30,15 @@ public class ArrayUtils {
 		return result;
 	}
 
+	public static Byte[] reverse(Byte[] array) {
+		Byte[] result = new Byte[array.length];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = array[array.length - 1 - i];
+		}
+
+		return result;
+	}
+
 	public static int[] xor2Vector(Byte[] array, Byte[] array1) {
 		if (array.length != array1.length)
 			return null;
@@ -54,10 +63,26 @@ public class ArrayUtils {
 		return result;
 	}
 
-	public static String convertToString(Byte[] array) {
+	public static String convertToHex(Byte[] array) {
 		StringBuilder result = new StringBuilder("");
 		for (int i = 0; i < array.length; i++)
 			result.append(HexFormat.of().toHexDigits(array[i]));
+		return result.toString();
+	}
+
+	public static String convertToDec(Byte[] array) {
+		StringBuilder result = new StringBuilder("");
+		for (int i = 0; i < array.length; i++)
+			result.append(Byte.toUnsignedInt(array[i]));
+		return result.toString();
+	}
+
+	public static String convertToStr(Byte[] array) {
+		StringBuilder result = new StringBuilder("");
+		for (int i = 0; i < array.length; i++) {
+			char aux = Character.toString(Byte.toUnsignedInt(array[i])).charAt(0);
+			result.append(aux);
+		}
 		return result.toString();
 	}
 
