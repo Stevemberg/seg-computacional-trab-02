@@ -21,6 +21,10 @@ public class BytesAndMatrixManipulation {
 		return byteMatrix;
 	}
 
+	public Byte[][] convertIntsToMatrix(int[] integer, boolean isAES) {
+		return convertBytesToMatrix(ArrayUtils.convertToByte(integer), isAES);
+	}
+
 	public Byte[][] convertIntegerToMatrix(ArrayList<Integer> integers, boolean isAES) {
 		Byte[] bytes = new Byte[0];
 		for (Integer integer : integers) {
@@ -32,13 +36,6 @@ public class BytesAndMatrixManipulation {
 
 	public Byte[][] convertStringToMAtrix(String str, boolean isAES) {
 		return convertIntegerToMatrix(convertStringToDecimal(str, " "), isAES);
-	}
-
-	public ArrayList<Byte[][]> convertBytesToArrayList(Byte[] bytes, boolean isAES) {
-//		ArrayList<Byte[][]> result = new ArrayList<Byte[][]>();
-//		convertBytesToMatrix(bytes, isAES);
-
-		return null;
 	}
 
 	public static void printMatrix(Byte[][] matrix) {
@@ -69,7 +66,7 @@ public class BytesAndMatrixManipulation {
 		ArrayList<Integer> result = new ArrayList<Integer>();
 		String[] hexadecimals = str.split(delimiter);
 		for (int i = 0; i < hexadecimals.length; i++) {
-			result.add(convertStringToDecimal(hexadecimals[i]));
+			result.add(Integer.parseInt(hexadecimals[i], 16));
 		}
 		return result;
 	}
@@ -118,6 +115,7 @@ public class BytesAndMatrixManipulation {
 		ArrayList<Byte[][]> result = new ArrayList<Byte[][]>();
 		boolean hasBytes = true;
 		int bytesIndex = 0;
+		int completeWith = 16 - (array.length % 16);
 		while (hasBytes) {
 			if (bytesIndex >= array.length)
 				break;
@@ -128,7 +126,7 @@ public class BytesAndMatrixManipulation {
 						block[j][i] = array[bytesIndex];
 						bytesIndex++;
 					} else {
-						block[j][i] = Integer.valueOf(0x20).byteValue();
+						block[j][i] = Integer.valueOf(completeWith).byteValue();
 						hasBytes = false;
 					}
 				}
@@ -157,6 +155,14 @@ public class BytesAndMatrixManipulation {
 			result = ArrayUtils.apend(result, list.get(list.size() - 1 - i));
 		}
 		return result;
+	}
+
+	public Byte[] intToBytes(int i) {
+		return new Byte[] { (byte) (i >>> 24), (byte) (i >>> 16), (byte) (i >>> 8), (byte) i };
+	}
+
+	int bytesToInt(Byte[] b) {
+		return (b[0]) << 24 | (b[1] & 0xFF) << 16 | (b[2] & 0xFF) << 8 | (b[3] & 0xFF);
 	}
 
 }

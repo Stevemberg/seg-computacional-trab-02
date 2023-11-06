@@ -13,7 +13,7 @@ public class ShellWrapper {
 		if (args != null && args.length > 0) {
 			processBuilder.command("/bin/bash", "-c", args[0]);
 		} else {
-			processBuilder.command("./script.sh");
+			processBuilder.command("./textfiles/script.sh");
 		}
 
 		// Run a shell script

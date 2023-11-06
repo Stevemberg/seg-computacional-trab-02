@@ -1,0 +1,1 @@
+openssl enc -aes-128-ecb -K 6162636465666768696a6b6c6d6e6f70 -in ./textfiles/text.txt  | xxd -p > ./textfiles/out.txt

@@ -40,11 +40,9 @@ public class ArrayUtils {
 	}
 
 	public static int[] xor2Vector(Byte[] array, Byte[] array1) {
-		if (array.length != array1.length)
-			return null;
-
 		int[] result = new int[array.length];
-		for (int i = 0; i < result.length; i++)
+
+		for (int i = 0; i < array.length && i < array1.length; i++)
 			result[i] = (array[i] ^ array1[i]) & 0xff;
 		return result;
 	}
@@ -63,25 +61,26 @@ public class ArrayUtils {
 		return result;
 	}
 
-	public static String convertToHex(Byte[] array) {
+	public static String printToHex(Byte[] array) {
 		StringBuilder result = new StringBuilder("");
 		for (int i = 0; i < array.length; i++)
 			result.append(HexFormat.of().toHexDigits(array[i]));
 		return result.toString();
 	}
 
-	public static String convertToDec(Byte[] array) {
+	public static String printToDec(Byte[] array) {
 		StringBuilder result = new StringBuilder("");
 		for (int i = 0; i < array.length; i++)
 			result.append(Byte.toUnsignedInt(array[i]));
 		return result.toString();
 	}
 
-	public static String convertToStr(Byte[] array) {
+	public static String printToStr(Byte[] array) {
 		StringBuilder result = new StringBuilder("");
 		for (int i = 0; i < array.length; i++) {
 			char aux = Character.toString(Byte.toUnsignedInt(array[i])).charAt(0);
-			result.append(aux);
+			if (aux > 16) // ignora o bytes de padding
+				result.append(aux);
 		}
 		return result.toString();
 	}
